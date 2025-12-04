@@ -27,7 +27,7 @@ app.get("/api/flights", async (req, res) => {
         heading: f[10],
         vertical_rate: f[11]
       }))
-      .filter(f => f.latitude && f.longitude);
+      .filter(f => f.latitude !== null && f.longitude !== null);
 
     res.json({ count: flights.length, flights });
   } catch (error) {
@@ -37,3 +37,4 @@ app.get("/api/flights", async (req, res) => {
 });
 
 app.listen(5000, () => console.log("API running on http://localhost:5000"));
+
