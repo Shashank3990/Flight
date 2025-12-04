@@ -35,8 +35,12 @@
     }
 
     async function loadFlights() {
-      const res = await fetch("https://flight-yfy9.onrender.com/api/flights");  // ✅ FIXED
-      const data = await res.json();
+      const res = await fetch(
+  "https://corsproxy.io/?https://opensky-network.org/api/states/all"
+);
+
+const data = await res.json();
+
       console.log("DATA RECEIVED:", data);
 
       flightLayer.clearLayers();
@@ -82,3 +86,4 @@
   </script>
 </body>
 </html>
+
