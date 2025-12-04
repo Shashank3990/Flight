@@ -37,7 +37,12 @@
     }
 
     async function loadFlights() {
-      const res = await fetch("https://your-render-app-name.onrender.com/api/flights");
+      const res = await fetch("https://flight-tracker-wodg.onrender.com/api/flights");
+const data = await res.json();
+console.log("DATA RECEIVED:", data);
+console.log("FLIGHTS:", data.flights);
+
+
 
 );
       const data = await res.json();
@@ -89,4 +94,5 @@
   </script>
 </body>
 </html>
+
 
