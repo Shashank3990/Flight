@@ -24,9 +24,7 @@
     }).addTo(map);
 
     const flightLayer = L.layerGroup().addTo(map);
-    let selectedMarker = null;
 
-    // Custom plane icon
     function planeIcon(rotation) {
       return L.icon({
         iconUrl: "https://img.icons8.com/ios-filled/50/airplane-take-off.png",
@@ -37,23 +35,20 @@
     }
 
     async function loadFlights() {
-      const res = await fetch("https://https://flight-yfy9.onrender.com/api/flights");
-const data = await res.json();
-console.log("DATA RECEIVED:", data);
-console.log("FLIGHTS:", data.flights);
+      const res = await fetch("https://flight-yfy9.onrender.com/api/flights");  // ✅ FIXED
+      const data = await res.json();
+      console.log("DATA RECEIVED:", data);
 
       flightLayer.clearLayers();
       document.getElementById("flight-list").innerHTML = "";
 
       data.flights.forEach(f => {
-        // Create plane marker
         const marker = L.marker([f.latitude, f.longitude], {
           icon: planeIcon(f.heading),
           rotationAngle: f.heading,
           rotationOrigin: "center",
         });
 
-        // Popup info
         marker.bindPopup(`
           <div class="popup">
             <b>Callsign:</b> ${f.callsign}<br>
@@ -66,7 +61,6 @@ console.log("FLIGHTS:", data.flights);
 
         marker.addTo(flightLayer);
 
-        // List item in sidebar
         const item = document.createElement("div");
         item.className = "flight-item";
         item.innerHTML = `
@@ -74,7 +68,6 @@ console.log("FLIGHTS:", data.flights);
           Lat: ${f.latitude.toFixed(2)}, Lon: ${f.longitude.toFixed(2)}
         `;
 
-        // Click on sidebar → highlight plane
         item.onclick = () => {
           map.flyTo([f.latitude, f.longitude], 8);
           marker.openPopup();
@@ -89,9 +82,3 @@ console.log("FLIGHTS:", data.flights);
   </script>
 </body>
 </html>
-
-
-
-
-
-
