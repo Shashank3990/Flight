@@ -25,20 +25,18 @@ app.get("/api/flights", async (req, res) => {
 
     const states = response.data.states || [];
 
-    const flights = states
-      .map(f => ({
-        icao24: f[0],
-        callsign: f[1]?.trim() || "Unknown",
-        origin_country: f[2],
-        last_contact: f[4],
-        longitude: f[5],
-        latitude: f[6],
-        baro_altitude: f[7],
-        on_ground: f[8],
-        velocity: f[9],
-        heading: f[10],
-        vertical_rate: f[11]
-      }))
+   const flights = data.states
+  .filter(f => f[5] !== null && f[6] !== null)
+  .map(f => ({
+    callsign: f[1]?.trim() || "Unknown",
+    origin_country: f[2],
+    longitude: f[5],
+    latitude: f[6],
+    baro_altitude: f[7],
+    velocity: f[9],
+    heading: f[10]
+  }));
+
       .filter(f => f.latitude !== null && f.longitude !== null);
 
     res.json({ count: flights.length, flights });
@@ -51,3 +49,4 @@ app.get("/api/flights", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`API running on port ${PORT}`));
+
