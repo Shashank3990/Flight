@@ -37,7 +37,9 @@
     }
 
     async function loadFlights() {
-      const res = await fetch("http://localhost:5000/api/flights");
+      const res = await fetch("https://your-render-app-name.onrender.com/api/flights");
+
+);
       const data = await res.json();
 
       flightLayer.clearLayers();
@@ -87,3 +89,4 @@
   </script>
 </body>
 </html>
+
