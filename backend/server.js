@@ -1,13 +1,25 @@
+import express from "express";
+import axios from "axios";
+import cors from "cors";
+
+const app = express();
+app.use(cors());
+
+const USER = process.env.OS_USER;
+const PASS = process.env.OS_PASS;
+
 app.get("/api/flights", async (req, res) => {
   try {
     const response = await axios.get(
       "https://opensky-network.org/api/states/all",
       {
-        headers: {
-          "User-Agent": "Mozilla/5.0",      // ✅ Spoof browser
-          "Accept": "application/json"
+        auth: {
+          username: USER,
+          password: PASS
         },
-        timeout: 10000                     // avoid Render timeout
+        headers: {
+          "User-Agent": "Mozilla/5.0"
+        }
       }
     );
 
@@ -32,12 +44,10 @@ app.get("/api/flights", async (req, res) => {
     res.json({ count: flights.length, flights });
 
   } catch (err) {
-    console.error("Backend error:", err.message);
+    console.error("OPENSKY ERROR:", err?.response?.status, err?.response?.data, err.message);
     res.status(500).json({ error: "Unable to get live flight data" });
   }
 });
 
-
-app.listen(5000, () => console.log("API running on http://localhost:5000"));
-
-
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`API running on port ${PORT}`));
